@@ -1,0 +1,15 @@
+registry:
+  ports:
+    - 5000:5000/tcp
+  image: registry:2
+  volumes:
+    - "/data/secret/registry/root.crt:/certs/root.crt:ro"
+    - "./registry/storage:/var/lib/registry:rw"
+  environment:
+    - REGISTRY_AUTH=token
+    - REGISTRY_AUTH_TOKEN_REALM=http://192.168.79.1:8080/archer/auth
+    - REGISTRY_AUTH_TOKEN_SERVICE="harbor-registry"
+    - REGISTRY_AUTH_TOKEN_ISSUER="harbor-token-issuer"
+    - REGISTRY_HTTP_SECRET=secretkey
+    - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/root.crt
+    - REGISTRY_LOG_LEVEL=debug
